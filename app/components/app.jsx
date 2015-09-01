@@ -3,6 +3,8 @@ import React, {Component, PropTypes} from 'react/addons';
 import Header from 'components/header';
 import Footer from 'components/footer';
 
+import Notifications from 'react-notification-system';
+
 if (process.env.BROWSER) {
   require('styles/main.scss');
 }
@@ -15,6 +17,8 @@ class App extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this._handleNotificationChange = this._handleNotificationChange.bind(this);
 
     this.state = {
       i18n: props.flux
@@ -31,6 +35,10 @@ class App extends Component {
     this.props.flux
       .getStore('page-title')
       .listen(this._handlePageTitleChange);
+
+    this.props.flux
+      .getStore('notifications')
+      .listen(this._handleNotificationChange);
   }
 
   componentWillUnmount() {
@@ -41,6 +49,10 @@ class App extends Component {
     this.props.flux
       .getStore('page-title')
       .unlisten(this._handlePageTitleChange);
+
+    this.props.flux
+      .getStore('notifications')
+      .unlisten(this._handleNotificationChange);
   }
 
   _handleLocaleChange = (i18n) => {
@@ -49,6 +61,10 @@ class App extends Component {
 
   _handlePageTitleChange({title}) {
     document.title = title;
+  }
+
+  _handleNotificationChange(notification) {
+    this.refs.notifications.addNotification(notification.notification);
   }
 
   // If we have children components sent by `react-router`
@@ -72,6 +88,7 @@ class App extends Component {
         }
         <hr />
         <Footer />
+        <Notifications ref="notifications" />
       </div>
     );
   }

@@ -18,7 +18,15 @@ class UsersActions {
       this.alt.getActions('requests').start();
       setTimeout(() => {
         this.actions.addSuccess(sample(data.users));
-        this.alt.getActions('requests').success();
+        this.alt.getActions('requests').fail({
+          message: 'Something happened...',
+          action: {
+            label: 'Try again!',
+            callback: ()=> {
+              // Do something...
+            }
+          }
+        });
         return resolve();
       }, 300);
     };
