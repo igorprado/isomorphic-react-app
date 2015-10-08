@@ -13,21 +13,34 @@ class UsersActions {
   }
 
   add() {
+    const self = this;
     const promise = (resolve) => {
       // fake xhr
       this.alt.getActions('requests').start();
       setTimeout(() => {
-        this.actions.addSuccess(sample(data.users));
-        this.alt.getActions('requests').fail({
-          message: 'Something happened...',
-          action: {
-            label: 'Try again!',
-            callback: ()=> {
-              alert('Fail!');
+        // Randomize this xhr
+        const number = Math.floor(Math.random() * (2 - 10)) + 2;
+
+        if (number % 2 === 0) {
+          const user = sample(data.users);
+          this.actions.addSuccess(user);
+          this.alt.getActions('requests').success({
+            title: user.user.email + ' added!'
+          });
+          return resolve();
+        } else {
+          this.alt.getActions('requests').fail({
+            title: 'Unable to add the user.',
+            autoDismiss: 0,
+            action: {
+              label: 'Try again',
+              callback: function() {
+                self.actions.add();
+              }
             }
-          }
-        });
-        return resolve();
+          });
+          return resolve();
+        }
       }, 300);
     };
     this.alt.resolve(promise);

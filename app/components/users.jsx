@@ -41,16 +41,15 @@ class Users extends Component {
     return this.setState(state);
   }
 
-  _removeUser(index) {
+  _removeUser(user, index) {
     this.props.flux
       .getActions('users')
       .remove(index);
 
     this.props.flux
       .getActions('notifications')
-      .addNotification({
-        level: 'error',
-        message: 'User removed'
+      .info({
+        title: user.user.email + ' removed.'
       });
   }
 
@@ -68,7 +67,7 @@ class Users extends Component {
         <td className='text-center'>
           <button
             className='user--remove'
-            onClick={ this._removeUser.bind(this, index) }>
+            onClick={ this._removeUser.bind(this, user, index) }>
             X
           </button>
         </td>
