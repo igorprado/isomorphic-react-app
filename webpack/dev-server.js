@@ -1,18 +1,17 @@
-/* eslint-disable */
+import koa from 'koa';
+import debug from 'debug';
+import webpack from 'webpack';
 
-'use strict';
+import config from './dev.config';
 
-require('babel/register');
+const app = koa();
+const compiler = webpack(config.webpack);
 
-var debug = require('debug');
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
+debug.enable('dev');
 
-var config = require('./dev.config');
+app.use(require('koa-webpack-dev-middleware')(compiler, config.server.options));
+app.use(require('koa-webpack-hot-middleware')(compiler));
 
-var compiler = webpack(config.webpack);
-var devServer = new WebpackDevServer(compiler, config.server.options);
-
-devServer.listen(config.server.port, '0.0.0.0', function () {
-  debug('dev')('webpack-dev-server listen on port %s', config.server.port);
+app.listen(config.server.port, '0.0.0.0', function() {
+  debug('dev')('`webpack-dev-server` listening on port %s', config.server.port);
 });

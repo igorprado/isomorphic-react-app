@@ -9,15 +9,15 @@ class NotificationsStore {
 
   handleRequestsError(payload) {
     payload.level = 'error';
-    return this.setState({notification: payload});
+    return this.setState({ notification: payload });
   }
 
   onAddNotification(notification) {
-    return this.setState({notification: notification});
+    return this.setState({ notification: notification });
   }
 
   onSuccess(notification) {
-    return this.setState({notification: notification});
+    return this.setState({ notification: notification });
   }
 }
 

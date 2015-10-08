@@ -23,7 +23,7 @@ class UsersActions {
           action: {
             label: 'Try again!',
             callback: ()=> {
-              // Do something...
+              alert('Fail!');
             }
           }
         });

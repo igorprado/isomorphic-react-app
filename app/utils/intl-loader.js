@@ -1,12 +1,6 @@
 import debug from 'debug';
 
-// We need to define `ReactIntl` on the global scope
-// in order to load specific locale data from `ReactIntl`
-// see: https://github.com/iam4x/isomorphic-flux-boilerplate/issues/64
-if (process.env.BROWSER) window.ReactIntl = require('react-intl');
-
 const loaders = {
-
   en(callback, force = false) {
     if (!window.Intl || force) {
       require.ensure([
@@ -19,16 +13,11 @@ const loaders = {
         const lang = require('data/en');
         return callback(lang);
       });
-    }
-    else {
-      require.ensure([
-        'react-intl/dist/locale-data/en.js',
-        'data/en'
-      ], (require) => {
-        require('react-intl/dist/locale-data/en.js');
-        const lang = require('data/en');
-        return callback(lang);
-      });
+    } else {
+      require.ensure(
+        ['data/en'],
+        (require) => callback(require('data/en'))
+      );
     }
   },
 
@@ -44,16 +33,11 @@ const loaders = {
         const lang = require('data/fr');
         return callback(lang);
       });
-    }
-    else {
-      require.ensure([
-        'react-intl/dist/locale-data/fr.js',
-        'data/fr'
-      ], (require) => {
-        require('react-intl/dist/locale-data/fr.js');
-        const lang = require('data/fr');
-        return callback(lang);
-      });
+    } else {
+      require.ensure(
+        ['data/fr'],
+        (require) => callback(require('data/fr'))
+      );
     }
   }
 
@@ -61,5 +45,13 @@ const loaders = {
 
 export default (locale, force) => {
   debug('dev')(`loading lang ${locale}`);
-  return new Promise((resolve) => loaders[locale](resolve, force));
+  return new Promise((resolve) => {
+    return loaders[locale]((result) => {
+      // We need to define `ReactIntl` on the global scope
+      // in order to load specific locale data from `ReactIntl`
+      // see: https://github.com/iam4x/isomorphic-flux-boilerplate/issues/64
+      if (process.env.BROWSER) window.ReactIntl = require('react-intl');
+      return resolve(result);
+    }, force);
+  });
 };
