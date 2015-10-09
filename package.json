@@ -9,8 +9,7 @@
     "test": "karma start --single-run",
     "dev-test": "karma start",
     "lint": "eslint app server webpack --ext .jsx,.js",
-    "postinstall": "npm run build",
-    "prod": "pm2 start processes.json"
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",

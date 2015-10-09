@@ -1,1 +1,1 @@
-web: npm run prod
+web: pm2 start processes.json
