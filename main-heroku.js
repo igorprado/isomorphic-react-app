@@ -7,7 +7,7 @@ var maxMemory = process.env.WEB_MEMORY || 512;    // " " "
 
 pm2.connect(function() {
   pm2.start({
-    script: 'app.js',
+    script: './server/index.js',
     name: 'production-app',     // ----> THESE ATTRIBUTES ARE OPTIONAL:
     exec_mode: 'cluster',            // ----> https://github.com/Unitech/PM2/blob/master/ADVANCED_README.md#schema
     instances: instances,
