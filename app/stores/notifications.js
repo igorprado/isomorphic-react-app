@@ -29,7 +29,7 @@ class NotificationsStore {
   }
 
   _setNotification(notification, level) {
-    if (!notification) return this.setState();
+    if (!notification) return false;
     if (level) notification.level = level;
     return this.setState({ notification: notification });
   }
