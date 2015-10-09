@@ -1,1 +1,1 @@
-web: pm2 start processes.json
+web: node main-heroku.js
