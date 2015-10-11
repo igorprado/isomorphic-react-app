@@ -21,6 +21,10 @@ export default (
       component: require('./components/profile')
     }) }
     { generateRoute({
+      paths: ['/notifications'],
+      component: require('./components/notifications-kitchen')
+    }) }
+    { generateRoute({
       paths: ['/login-info', '/info-client'],
       component: require('./pages/login-info')
     }) }

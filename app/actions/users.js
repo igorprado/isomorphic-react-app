@@ -7,43 +7,46 @@ class UsersActions {
 
   constructor() {
     this.generateActions(
-      'remove', 'fetchSuccess', 'addSuccess',
-      'fetchBySeedSuccess'
+      'remove', 'fetchSuccess', 'fetchBySeedSuccess'
     );
   }
 
   add() {
-    const self = this;
     const promise = (resolve) => {
       // fake xhr
       this.alt.getActions('requests').start();
       setTimeout(() => {
         // Randomize this xhr
-        const number = Math.floor(Math.random() * (2 - 10)) + 2;
+        const user = sample(data.users);
 
-        if (number % 2 === 0) {
-          const user = sample(data.users);
+        if (Math.random() > 0.5) {
           this.actions.addSuccess(user);
-          this.alt.getActions('requests').success({
-            title: user.user.email + ' added!'
-          });
+          this.alt.getActions('requests').success();
           return resolve();
         } else {
-          this.alt.getActions('requests').fail({
-            title: 'Unable to add the user.',
-            autoDismiss: 0,
-            action: {
-              label: 'Try again',
-              callback: function() {
-                self.actions.add();
-              }
-            }
-          });
+          this.alt.getActions('requests').fail();
+          this.actions.addError(user);
           return resolve();
         }
       }, 300);
     };
     this.alt.resolve(promise);
+  }
+
+  addSuccess(user) {
+    this.alt.getActions('notification').success({
+      title: 'User added',
+      message: `${user.user.email} was added!`
+    });
+
+    return { user };
+  }
+
+  addError(user) {
+    this.alt.getActions('notification').error({
+      title: 'Error adding user',
+      message: `${user.user.email} couldn't be added.`
+    });
   }
 
   fetch() {

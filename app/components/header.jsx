@@ -74,6 +74,11 @@ class Header extends Component {
               { this._getIntlMessage('header.protected') }
             </Link>
           </li>
+          <li>
+            <Link to={ this._getIntlMessage('routes.notifications') }>
+              { this._getIntlMessage('header.notifications') }
+            </Link>
+          </li>
         </ul>
       </header>
     );

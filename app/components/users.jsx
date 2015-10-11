@@ -47,9 +47,10 @@ class Users extends Component {
       .remove(index);
 
     this.props.flux
-      .getActions('notifications')
+      .getActions('notification')
       .info({
-        title: user.user.email + ' removed.'
+        title: 'User removed',
+        message: user.user.email + ' removed.'
       });
   }
 

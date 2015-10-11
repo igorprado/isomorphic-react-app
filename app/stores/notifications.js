@@ -2,36 +2,21 @@ class NotificationsStore {
   constructor() {
     this.bindActions(this.alt.getActions('notifications'));
 
-    this.bindListeners({
-      onError: this.alt.getActions('requests').fail,
-      onSuccess: this.alt.getActions('requests').success
-    });
+    this.state = {
+      notifications: []
+    };
   }
 
-  onAddNotification(notification) {
-    this._setNotification(notification);
+  onSuccessfullyAdded(notification) {
+    const notifications = this.state.notifications.slice();
+    notifications.push(notification);
+    return this.setState({ notifications });
   }
 
-  onSuccess(notification) {
-    this._setNotification(notification, 'success');
-  }
-
-  onError(notification) {
-    this._setNotification(notification, 'error');
-  }
-
-  onWarning(notification) {
-    this._setNotification(notification, 'warning');
-  }
-
-  onInfo(notification) {
-    this._setNotification(notification, 'info');
-  }
-
-  _setNotification(notification, level) {
-    if (!notification) return false;
-    if (level) notification.level = level;
-    return this.setState({ notification: notification });
+  onSuccessfullyRemoved(notification) {
+    const notifications = this.state.notifications.slice();
+    notifications.splice(notifications.indexOf(notification), 1);
+    return this.setState({ notifications: notifications });
   }
 }
 

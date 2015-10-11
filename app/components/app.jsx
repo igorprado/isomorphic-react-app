@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Header from 'components/header';
 import Footer from 'components/footer';
-import Notifications from 'react-notification-system';
+import Notifications from 'components/notifications';
 
 if (process.env.BROWSER) require('styles/app.css');
 
@@ -22,19 +22,16 @@ class App extends Component {
     const { flux } = this.props;
     flux.getStore('locale').listen(this._handleLocaleChange);
     flux.getStore('page-title').listen(this._handlePageTitleChange);
-    flux.getStore('notifications').listen(this._handleNotificationChange);
   }
 
   componentWillUnmount() {
     const { flux } = this.props;
     flux.getStore('locale').unlisten(this._handleLocaleChange);
     flux.getStore('page-title').unlisten(this._handlePageTitleChange);
-    flux.getStore('notifications').unlisten(this._handleNotificationChange);
   }
 
   _handleLocaleChange = (i18n) => this.setState({ i18n })
   _handlePageTitleChange = ({ title }) => document.title = title
-  _handleNotificationChange = (notification) => this.refs.notifications.addNotification(notification.notification);
 
   // If we have children components sent by `react-router`
   // we need to clone them and add them the correct
@@ -53,7 +50,8 @@ class App extends Component {
             .map(this.props.children, this.renderChild) }
         <hr />
         <Footer />
-        <Notifications ref='notifications' />
+        <Notifications
+          flux={ this.props.flux } />
       </div>
     );
   }

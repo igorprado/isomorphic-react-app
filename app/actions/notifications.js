@@ -1,7 +1,7 @@
 class NotificationsActions {
 
   constructor() {
-    this.generateActions('addNotification', 'success', 'error', 'warning', 'info');
+    this.generateActions('successfullyAdded', 'successfullyRemoved');
   }
 }
 

@@ -23,7 +23,6 @@ class UsersStore {
   onAddSuccess(user) {
     const users = this.users.slice();
     users.push(user);
-
     return this.setState({ users });
   }
 

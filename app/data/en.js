@@ -3,7 +3,8 @@ export default {
     header: {
       users: 'Users List',
       guides: 'Guides',
-      protected: 'Protected'
+      protected: 'Protected',
+      notifications: 'Notifications'
     },
     guides: {
       'page-title': 'Guides'
@@ -23,12 +24,16 @@ export default {
       add: 'Add random user',
       profile: 'Profile'
     },
+    notifications: {
+      'page-title': 'Notifications'
+    },
     routes: {
       users: '/users',
       guides: '/guides',
       protected: '/protected',
       profile: '/profile/:seed',
-      'login-info': '/login-info'
+      'login-info': '/login-info',
+      notifications: 'notifications'
     }
   }
 };
