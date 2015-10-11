@@ -33,7 +33,7 @@ export default {
       protected: '/protected',
       profile: '/profile/:seed',
       'login-info': '/login-info',
-      notifications: 'notifications'
+      notifications: '/notifications'
     }
   }
 };
